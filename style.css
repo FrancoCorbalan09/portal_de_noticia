@@ -1,0 +1,223 @@
+body{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    background-color: #414040;
+}
+.fecha{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #343636;
+}
+.hamburguesa{
+    display: block;
+    color: rgb(22, 22, 22);
+    background: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+.color{
+    color: white;
+}
+.titulo {
+    color: white;
+    font-size: 80px;
+    text-align: center;
+    margin: 10px;
+}
+.subtitulos{
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding-left: 15px;
+}
+.subtitulos_uno a{
+    display: block;
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    margin-left: 15px;
+    
+}
+.subtitulos_dos{
+    color: white;
+    font-size: 10px;
+    margin-left: 15px;
+}
+.navegador{
+    display: none;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgb(168, 168, 164);
+}
+.navegador ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+.navegador li a{
+    color: white;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.wrap{
+    padding: 10px;
+}
+.principal{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.imagenes {
+    display: grid;
+    gap: 10px;
+}
+.imagenes img {
+    width: 100%;
+    height: auto;
+    
+}
+.descripcion{
+    color: white;
+    font-size: 10px;
+}
+.noticias{
+    border: 1px solid rgb(168, 168, 164);
+}
+.parrafo{
+    color: white;
+    font-size: 15px;
+    margin-left: 10px;
+}
+.barra_lateral{
+    width: 100%;
+}
+.noticias_secundarias{
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: #adb0b4;
+}
+.noticia-secundaria {
+    background: #adb0b4;
+    padding: 15px;
+    border-left: 4px solid #e2dedd;
+    border-radius: 6px;
+}
+.noticia-secundaria a {
+    font-size: 16px;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color:black;
+}
+.mas_visto{
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+.mas_visto__titulo{
+    color: white;
+}
+.mas_visto__lista,.mas_visto__lista a{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: white;
+    text-decoration: none;
+}
+.pie_pagina{
+    background-color:white;
+    padding: 20px;
+    margin-top: 30px;
+}
+.pie_pagina h1{
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 15px;
+}
+.pie_pagina p{
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 12px;
+}
+@media (min-width: 768px){
+.hamburguesa{ display: none; }
+.navegador{
+    display: flex;                 
+    justify-content: center;
+    gap: 24px;
+}
+.navegador ul{
+    margin: 0; 
+    padding: 0;
+    display: flex; 
+    gap: 24px;
+}
+.subtitulos{ font-size: 20px; }
+.titulo{ font-size: 64px; }
+.imagenes{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+.imagenes img{
+    width: 100%;
+    height: 220px;           
+    object-fit: cover;
+    display: block;
+    }
+.noticias_secundarias{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+.mas_visto__lista{
+    column-count: 2;
+    column-gap: 40px;
+}
+}
+@media (min-width: 1024px){
+.hamburguesa{ display: none; }
+.navegador{ display: flex; }
+.wrap{ 
+    max-width: 1100px; 
+    margin: 0 auto; 
+    padding: 0 16px; 
+}
+.principal{
+    display: grid;
+    grid-template-columns: 2fr 1fr;  
+    gap: 24px;
+    align-items: start;
+}
+.barra_lateral{
+    grid-column: 2;
+}
+.imagenes{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+.imagenes img{ 
+    height: 240px; 
+}
+.noticias_secundarias{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+.mas_visto__lista{
+    column-count: 2;
+    column-gap: 40px;
+}
+.noticias{
+    border: 1px solid #bfbfbf;
+    border-radius: 8px;
+    padding: 16px;
+    background: #3b3b3b;
+}
+.parrafo{ 
+    font-size: 16px; 
+}
+}
+
