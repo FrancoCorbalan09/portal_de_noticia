@@ -157,7 +157,7 @@ body{
 .titulo{ font-size: 64px; }
 .imagenes{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 16px;
 }
 .imagenes img{
@@ -195,7 +195,7 @@ body{
 }
 .imagenes{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: 16px;
 }
 .imagenes img{ 
