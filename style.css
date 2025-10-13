@@ -185,6 +185,9 @@ body{
 .formulario_grupo.error input {
     border-color: #dc3545;
 }
+.formulario_grupo.error .error_mensaje {
+    display: block;
+}
 .enviar {
     grid-column: 1;
     display: flex;
