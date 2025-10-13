@@ -102,9 +102,6 @@ formulario.addEventListener('submit', function(e) {
     if (es_valido) {
         mensaje.style.display = 'block';
         formulario.reset();
-        setTimeout(function() {
-            mensaje.style.display = 'none';
-        }, 5000);
     } else {
         var primer_error = formulario.querySelector('.formulario_grupo.error');
         if (primer_error) {
