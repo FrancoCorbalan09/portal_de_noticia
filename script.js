@@ -82,6 +82,7 @@ formulario.addEventListener('submit', function(e) {
     e.preventDefault();
     var es_valido = true;
     var errores = [];
+    var datos_formulario = {};
     var grupos_formulario = formulario.querySelectorAll('.formulario_grupo');
     for (var i = 0; i < grupos_formulario.length; i++) {
         grupos_formulario[i].classList.remove('error');
@@ -97,20 +98,27 @@ formulario.addEventListener('submit', function(e) {
             if (etiqueta && etiqueta.tagName === 'LABEL') {
                 errores.push(etiqueta.textContent.replace(' *', ''));
             }
+        } else {
+            datos_formulario[nombre_campo] = valor;
         }
     }
     if (es_valido) {
-        mensaje.style.display = 'block';
-        formulario.reset();
+        enviar_datos_servidor(datos_formulario);
     } else {
         var primer_error = formulario.querySelector('.formulario_grupo.error');
         if (primer_error) {
             primer_error.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        alert('Por favor corrija los siguientes campos:\n- ' + errores.join('\n- '));
+        var contenido = '<p>Por favor corrija los siguientes campos:</p>';
+        contenido += '<ul class="lista_errores">';
+        for (var i = 0; i < errores.length; i++) {
+            contenido += '<li>' + errores[i] + '</li>';
+        }
+        contenido += '</ul>';
+        mostrar_modal('Errores en el Formulario', contenido, false);
     }
 });
-var input_nombre_completo = document.getElementById('fullName');
+var input_nombre_completo = document.getElementById('nombre_completo');
 var titulo_formulario = document.querySelector('.formulario_contenedor h2');
 input_nombre_completo.addEventListener('input', function() {
     var nombre = input_nombre_completo.value.trim();
@@ -129,5 +137,87 @@ input_nombre_completo.addEventListener('focus', function() {
 input_nombre_completo.addEventListener('blur', function() {
     if (!input_nombre_completo.value.trim()) {
         titulo_formulario.textContent = 'Formulario de Suscripción';
+    }
+});
+function mostrar_modal(titulo, contenido, es_exito) {
+    var modal = document.getElementById('modal_resultado');
+    var modal_titulo = document.getElementById('modal_titulo');
+    var modal_contenido = document.getElementById('modal_contenido');
+    modal_titulo.textContent = titulo;
+    modal_contenido.innerHTML = contenido;
+    if (es_exito) {
+        modal.classList.add('exito');
+        modal.classList.remove('error');
+    } else {
+        modal.classList.add('error');
+        modal.classList.remove('exito');
+    }
+    modal.style.display = 'flex';
+}
+function cerrar_modal() {
+    var modal = document.getElementById('modal_resultado');
+    modal.style.display = 'none';
+}
+function enviar_datos_servidor(datos_formulario) {
+    var url = 'https://jsonplaceholder.typicode.com/posts?';
+    var params = [];
+    for (var campo in datos_formulario) {
+        params.push(encodeURIComponent(campo) + '=' + encodeURIComponent(datos_formulario[campo]));
+    }
+    url += params.join('&');
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(function(response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Error en la respuesta del servidor: ' + response.status);
+        }
+    })
+    .then(function(data) {
+        localStorage.setItem('datos_suscripcion', JSON.stringify(datos_formulario));
+        localStorage.setItem('respuesta_servidor', JSON.stringify(data));
+        var contenido = '<p>¡Tu suscripción ha sido procesada exitosamente!</p>';
+        contenido += '<div class="datos_respuesta">';
+        contenido += '<h3>Datos enviados:</h3>';
+        contenido += '<p><strong>Nombre Completo:</strong> ' + datos_formulario.nombre_completo + '</p>';
+        contenido += '<p><strong>Email:</strong> ' + datos_formulario.email + '</p>';
+        contenido += '<p><strong>Contraseña:</strong> ' + datos_formulario.password + '</p>';
+        contenido += '<p><strong>Edad:</strong> ' + datos_formulario.edad + ' años</p>';
+        contenido += '<p><strong>Teléfono:</strong> ' + datos_formulario.telefono + '</p>';
+        contenido += '<p><strong>Dirección:</strong> ' + datos_formulario.direccion + '</p>';
+        contenido += '<p><strong>Ciudad:</strong> ' + datos_formulario.ciudad + '</p>';
+        contenido += '<p><strong>Código Postal:</strong> ' + datos_formulario.codigo_postal + '</p>';
+        contenido += '<p><strong>DNI:</strong> ' + datos_formulario.dni + '</p>';
+        contenido += '</div>';
+        mostrar_modal('¡Suscripción Exitosa!', contenido, true);
+        formulario.reset();
+    })
+    .catch(function(error) {
+        var contenido = '<p>Hubo un problema al procesar tu suscripción.</p>';
+        contenido += '<p>Por favor, intenta nuevamente más tarde.</p>';
+        
+        mostrar_modal('Error en la Suscripción', contenido, false);
+    });
+}
+window.addEventListener('load', function() {
+    var datos_guardados = localStorage.getItem('datos_suscripcion');
+    if (datos_guardados) {
+        try {
+            var datos = JSON.parse(datos_guardados);
+            for (var campo in datos) {
+                var input = document.getElementById(campo);
+                if (input && campo !== 'password' && campo !== 'confirma_password') {
+                    input.value = datos[campo];
+                }
+            }
+            console.log('Datos cargados desde LocalStorage');
+        } catch (error) {
+            console.error('Error al cargar datos desde LocalStorage:', error);
+        }
     }
 });
